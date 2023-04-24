@@ -2,8 +2,14 @@
 files=$(git diff main test/dbt --name-status |
 while read status file; do
     if [[ $file =~ .*".sql" ]]; then
-        if [ $status = "??" ] || [ $status = "M" ] || [ $status = "A" ]; then
-            echo "dbt run --select ${file::-4}+"
+        if [[ $file =~ testpath.*"/" ]]; then
+            file=${file##*/}
+            file=${file::-4}
+            if [ $status = "M" ]; then
+                echo "dbt run --select $file+"
+            elif [ $status = "A" ]; then
+                echo "dbt run --select $file"
+            fi
         fi
     fi
 done |
