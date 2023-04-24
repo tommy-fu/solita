@@ -1,27 +1,25 @@
 #!/bin/bash
-files=$(git status --porcelain)
-while read -r line; do
-    STATUS=$(echo $line | cut -d " " -f 1);
-    FILE=$(echo $line | cut -d " " -f 2);
-    echo $FILE$STATUS
-    if [[ $FILE =~ .*".sql" ]]; then
-        echo "It's there."
-        if [ $STATUS = "??" ] || [ $STATUS = "M" ] || [ $STATUS = "A" ]; then
-            echo "dbt run --select ${FILE::-4}+"
+files=$(git diff main test/dbt --name-status |
+while read status file; do
+    if [[ $file =~ .*".sql" ]]; then
+        if [ $status = "??" ] || [ $status = "M" ] || [ $status = "A" ]; then
+            echo "dbt run --select ${file::-4}+"
         fi
-fi
-done <<< $files
+    fi
+done |
+paste -sd "," -
+) 
+echo $files
+while read command; do
+    echo "running:$command"
+    # $command
+done < <(echo "$files" | tr ',' '\n')
 
-# declare -A test
 
-# while read -r line; do 
-#     STATUS=$(echo $line | cut -d " " -f 1);
-#     FILE=$(echo $line | cut -d " " -f 2);
-#     test[name]=$FILE;
-#     test[status]=$STATUS;
-#     echo ${test[status]}
-#     echo ${test[name]}
-#     echo ${test}
-#     array+=($test)
-# done < test.txt
-# echo ${array[*]}
+## Skapa upp en profiles.yml(OBS bara test i början)
+## Bigquery key file
+## Bigquery project
+## Bigquery dedikerat dataset för test
+## test-branch som man kan köra pull requests mot(om det går via dbt cloud?)
+## skapa upp env variabler i github
+## Skapa upp en profiles.yml
