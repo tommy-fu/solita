@@ -1,1 +1,3 @@
-a
+M test.txt
+?? test.sh
+?? test.sql
