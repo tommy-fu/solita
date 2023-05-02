@@ -21,7 +21,9 @@ jobs:
       - name: Authenticate using service account
         run: |
           MSG=$(git log --format=%B -n 1 ${{github.event.after}})
+          MSG2=$(git log --format=%B -n 2)
           echo "LATEST MESSAGE $MSG"
+          echo "LATEST MESSAGE $MSG2"
 
           
       
