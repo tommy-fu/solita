@@ -1,0 +1,27 @@
+name: test
+
+on:
+  schedule:
+    - cron:  '12 12 13 12 5'
+  workflow_dispatch:
+  pull_request:
+
+
+jobs:
+  scheduled_run:
+    name: scheduled_run
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Authenticate using service account
+        run: |
+          MSG=$(git log --format=%B -n 1 ${{github.event.after}})
+          echo "LATEST MESSAGE $MSG"
+
+          
+      
