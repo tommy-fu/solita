@@ -22,8 +22,9 @@ jobs:
         run: |
           MSG=$(git log --format=%B -n 1 ${{github.event.after}})
           MSG2=$(git log --format=%B -n 2)
+          MSG3=$(git log -n 1 --skip 1 --pretty=format:"%s")
           echo "LATEST MESSAGE $MSG"
           echo "LATEST MESSAGE $MSG2"
-
+          echo "MESSAGE 3 $MSG3"
           
       
