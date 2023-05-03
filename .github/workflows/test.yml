@@ -4,6 +4,16 @@ on:
   schedule:
     - cron:  '12 12 13 12 5'
   workflow_dispatch:
+    inputs:
+      bq_environment:
+        description: 'select environment'
+        required: true
+        default: test
+        type: choice
+        options:
+        - test
+        - prod
+      branch:
   pull_request:
     branches:
       - main
@@ -38,15 +48,13 @@ jobs:
       #   if: github.event.pull_request.merged == true
       #   run: |
       #     echo "MERGED"
-      - name: test env
+      - name: test workflow dispatch
+        if: github.event_name == 'workflow_dispatch'
         env: 
           test: "changed test"
         run: |
-          echo ${{env.test}}
-          echo "test2=changedtest2" >> $GITHUB_ENV
-      - name: test env2
-        run: |
-          echo ${{env.test2}}
+          echo ${{ inputs.bq_environment}}
+          echo ${{ inputs.branch }}
 
 
 
