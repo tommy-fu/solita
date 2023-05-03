@@ -41,7 +41,7 @@ jobs:
           test=""
           echo "count=$(echo $test | wc -w)" >> $GITHUB_OUTPUT
       - name: test ouput
-        if: github.event_name == 'workflow_dispatch' && ${{ steps.count.outputs.count }} -gt 0
+        if: github.event_name == 'workflow_dispatch' && ${{ steps.count.outputs.count > 0 }} 
         run: |
           echo "works"
           echo ${{ steps.count.outputs.count }}
