@@ -2,22 +2,28 @@ name: test
 
 on:
   schedule:
-    - cron:  '12 12 13 12 5'
+    - cron: "12 12 13 12 5"
   workflow_dispatch:
     inputs:
-      bq_environment:
-        description: 'select environment'
-        required: true
-        default: test
+      name:
         type: choice
+        description: Who to greet
         options:
-        - test
-        - prod
-      branch:
+          - monalisa
+          - cschleiden
+      message:
+        description: 'test'
+        required: true
+      use-emoji:
+        type: boolean
+        description: Include 🎉🤣 emojis
+      environment:
+        description: ''
+        type: environment
   pull_request:
     branches:
       - main
-    types: [opened,closed,edited, synchronize, reopened]
+    types: [opened, closed, edited, synchronize, reopened]
 
 env:
   test: "test1"
@@ -33,7 +39,7 @@ jobs:
       #   uses: actions/checkout@v2
       #   with:
       #     fetch-depth: 0
-      
+
       # - name: log
       #   if: github.event.pull_request.merged == false
       #   run: |
@@ -43,21 +49,14 @@ jobs:
       #   if: github.event.pull_request.merged == false
       #   run: |
       #     echo "NOT MERGED"
-      
+
       # - name: run_models_prod
       #   if: github.event.pull_request.merged == true
       #   run: |
       #     echo "MERGED"
       - name: test workflow dispatch
         if: github.event_name == 'workflow_dispatch'
-        env: 
+        env:
           test: "changed test"
         run: |
-          echo "dbt run testmodel ${{ '--target prod' [github.event.inputs.bq_environment == 'prod'] }}"
-          echo ${{ inputs.branch }}
-
-
-
-          
-          
-      
+          run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
