@@ -9,6 +9,9 @@ on:
       - main
     types: [opened,closed,edited, synchronize, reopened]
 
+env:
+  test: "test1"
+  test2: "test2"
 
 jobs:
   scheduled_run:
@@ -16,25 +19,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      # - name: checkout
+      #   uses: actions/checkout@v2
+      #   with:
+      #     fetch-depth: 0
       
-      - name: log
-        if: github.event.pull_request.merged == false
-        run: |
-          echo "${{ github.event.pull_request }}"
+      # - name: log
+      #   if: github.event.pull_request.merged == false
+      #   run: |
+      #     echo "${{ github.event.pull_request }}"
 
-      - name: run_models_test
-        if: github.event.pull_request.merged == false
-        run: |
-          echo "NOT MERGED"
+      # - name: run_models_test
+      #   if: github.event.pull_request.merged == false
+      #   run: |
+      #     echo "NOT MERGED"
       
-      - name: run_models_prod
-        if: github.event.pull_request.merged == true
+      # - name: run_models_prod
+      #   if: github.event.pull_request.merged == true
+      #   run: |
+      #     echo "MERGED"
+      - name: test env
+        env: 
+          test: "changed test"
         run: |
-          echo "MERGED"
+          echo ${{env.test}}
+          echo "test2=changedtest2" >> $GITHUB_ENV
+      - name: test env2
+        run: |
+          echo ${{env.test2}}
+
+
 
           
           
