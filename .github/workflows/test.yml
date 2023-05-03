@@ -24,8 +24,14 @@ jobs:
       - name: log
         if: github.event.pull_request.merged == false
         run: |
-          echo "${{ github.event.pull_request }}"
-
+          comment=$(git log -n 1 --skip 1 --pretty=format:"%s")
+          echo "Latest git comment: $comment"
+          if [[ $comment =~ .*"skip-run-test" || $comment =~ .*"skip-run" ]] ; then
+            echo "SKIPPING RUN test and skip"
+          fi
+          if [[ $comment =~ .*"skip-run-test" ]] ; then
+           echo "SKIPPING RUN TEST"
+          fi
       - name: run_models_test
         if: github.event.pull_request.merged == false
         run: |
