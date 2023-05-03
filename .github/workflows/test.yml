@@ -24,7 +24,7 @@ jobs:
       - name: log
         if: github.event.pull_request.merged == false
         run: |
-          echo ${{ github.event.pull_request }}
+          echo "${{ github.event.pull_request }}"
 
       - name: run_models_test
         if: github.event.pull_request.merged == false
