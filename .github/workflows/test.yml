@@ -24,6 +24,7 @@ on:
 env:
   test: "test1"
   test2: "test2"
+  test3: 1
 
 jobs:
   scheduled_run:
@@ -31,39 +32,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # - name: checkout
-      #   uses: actions/checkout@v2
-      #   with:
-      #     fetch-depth: 0
-      
-      # - name: log
-      #   if: github.event.pull_request.merged == false
-      #   run: |
-      #     echo "${{ github.event.pull_request }}"
-
-      # - name: run_models_test
-      #   if: github.event.pull_request.merged == false
-      #   run: |
-      #     echo "NOT MERGED"
-      
-      # - name: run_models_prod
-      #   if: github.event.pull_request.merged == true
-      #   run: |
-      #     echo "MERGED"
-      #run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
-
       - name: test workflow dispatch
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' && ${{ env.test3 }} > 0 
         env: 
           test: "changed test"
         run: |
-          echo "this is a workflow_dispatch"
-          echo "dbt run ${{ github.event.inputs.models }} ${{ fromJSON('["","--target prod"]')[github.event.inputs.environment == 'true'] }} ${{ fromJSON('["","--full-refresh"]')[github.event.inputs.full_refresh == 'true'] }}"
+          
+          echo "condition works"
       
-      - name: pull request dev
-        if: github.event_name == 'pull_request' && github.event.pull_request.merged == false
-        run: |
-          echo "dev"
+    # echo "dbt run testmodel ${{ fromJSON('["","--target prod"]')[github.event.inputs.bq_environment == 'true'] }}"
+    # - name: checkout
+    #   uses: actions/checkout@v2
+    #   with:
+    #     fetch-depth: 0
+    
+    # - name: log
+    #   if: github.event.pull_request.merged == false
+    #   run: |
+    #     echo "${{ github.event.pull_request }}"
+
+    # - name: run_models_test
+    #   if: github.event.pull_request.merged == false
+    #   run: |
+    #     echo "NOT MERGED"
+    
+    # - name: run_models_prod
+    #   if: github.event.pull_request.merged == true
+    #   run: |
+    #     echo "MERGED"
+    #run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
+
+
 
       - name: merge prod
         if: github.event_name == 'pull_request' &&  github.event.pull_request.merged == true
