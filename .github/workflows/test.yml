@@ -5,9 +5,14 @@ on:
     - cron:  '12 12 13 12 5'
   workflow_dispatch:
     inputs:
-      bq_environment:
-        description: 'Prod'
+      models:
+        description: "Models to run eg: test+ +test1 +test2+" 
         required: true
+      environment:
+        description: 'Prod'
+        type: boolean
+      full_refresh:
+        description: 'full-refresh'
         type: boolean
       
       
@@ -52,18 +57,18 @@ jobs:
         env: 
           test: "changed test"
         run: |
-          echo this is a workflow_dispatch
-          echo "dbt run testmodel ${{ fromJSON('["","--target prod"]')[github.event.inputs.bq_environment == 'true'] }}"
+          echo "this is a workflow_dispatch"
+          echo "dbt run ${{ github.event.inputs.models }} ${{ fromJSON('["","--target prod"]')[github.event.inputs.environment == 'true'] }} ${{ fromJSON('["","--full-refresh"]')[github.event.inputs.full_refresh == 'true'] }}"
       
-      - name: pull request
-        if: github.event_name == 'pull_request'
+      - name: pull request dev
+        if: github.event_name == 'pull_request' && github.event.pull_request.merged == false
         run: |
-          echo "this is a pull request"
+          echo "dev"
 
-      - name: merge
-        if: github.event.pull_request.merged == true
+      - name: merge prod
+        if: github.event_name == 'pull_request' &&  github.event.pull_request.merged == true
         run: |
-          echo ${{ github.event_name }}
+          echo "prod"
 
 
           
