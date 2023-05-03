@@ -33,12 +33,17 @@ jobs:
 
     steps:
       - name: test workflow dispatch
+        id: count
         if: github.event_name == 'workflow_dispatch' && ${{ env.test3 }} > 0 
         env: 
           test: "changed test"
         run: |
-          
-          echo "condition works"
+          test="test test2"
+          echo "count=$(echo $test | wc)" >> $GITHUB_OUTPUT
+      - name: test ouput
+        run: |
+          echo ${{ steps.count.outputs.count }}
+
       
     # echo "dbt run testmodel ${{ fromJSON('["","--target prod"]')[github.event.inputs.bq_environment == 'true'] }}"
     # - name: checkout
@@ -50,38 +55,6 @@ jobs:
     #   if: github.event.pull_request.merged == false
     #   run: |
     #     echo "${{ github.event.pull_request }}"
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
-
-    # - name: run_models_test
-    #   if: github.event.pull_request.merged == false
-    #   run: |
-    #     echo "NOT MERGED"
-    
-    # - name: run_models_prod
-    #   if: github.event.pull_request.merged == true
-    #   run: |
-    #     echo "MERGED"
-    #run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
-
-
->>>>>>> 80ba031 (t)
-
-    # - name: run_models_test
-    #   if: github.event.pull_request.merged == false
-    #   run: |
-    #     echo "NOT MERGED"
-    
-    # - name: run_models_prod
-    #   if: github.event.pull_request.merged == true
-    #   run: |
-    #     echo "MERGED"
-    #run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
-
-
->>>>>>> 80ba031 (t)
 
     # - name: run_models_test
     #   if: github.event.pull_request.merged == false
@@ -96,10 +69,10 @@ jobs:
 
 
 
-      - name: merge prod
-        if: github.event_name == 'pull_request' &&  github.event.pull_request.merged == true
-        run: |
-          echo "prod"
+    # - name: merge prod
+    #   if: github.event_name == 'pull_request' &&  github.event.pull_request.merged == true
+    #   run: |
+    #     echo "prod"
 
 
           
