@@ -53,7 +53,7 @@ jobs:
         env: 
           test: "changed test"
         run: |
-          echo ${{ inputs.bq_environment}}
+          echo "dbt run testmodel ${{ --target prod [ github.event.inputs.bq_environment == 'prod'] }}"
           echo ${{ inputs.branch }}
 
 
