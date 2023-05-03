@@ -6,14 +6,11 @@ on:
   workflow_dispatch:
     inputs:
       bq_environment:
-        description: 'select environment'
+        description: 'Prod'
         required: true
-        default: test
-        type: choice
-        options:
-        - test
-        - prod
-      branch:
+        type: boolean
+      
+      
   pull_request:
     branches:
       - main
@@ -53,7 +50,7 @@ jobs:
         env: 
           test: "changed test"
         run: |
-          echo "dbt run testmodel ${{ '--target prod'[github.event.inputs.bq_environment == 'prod'] }}"
+          echo "dbt run testmodel ${{ '--target prod'[github.event.inputs.bq_environment == 'true'] }}"
 
 
 
