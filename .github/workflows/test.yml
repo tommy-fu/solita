@@ -5,6 +5,9 @@ on:
     - cron:  '12 12 13 12 5'
   workflow_dispatch:
   pull_request:
+    branches:
+      - main
+    types: [opened,closed,edited, synchronize, reopened]
 
 
 jobs:
@@ -17,11 +20,22 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: Authenticate using service account
+      
+      - name: log
+        if: github.event.pull_request.merged == false
         run: |
-          MSG=$(git log --format=%B -n 1 ${{github.event.after}})
-          echo "LATEST MESSAGE $MSG"
+          echo "${{ github.event.pull_request }}"
 
+      - name: run_models_test
+        if: github.event.pull_request.merged == false
+        run: |
+          echo "NOT MERGED"
+      
+      - name: run_models_prod
+        if: github.event.pull_request.merged == true
+        run: |
+          echo "MERGED"
+
+          
           
       
