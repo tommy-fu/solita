@@ -45,12 +45,14 @@ jobs:
       #   if: github.event.pull_request.merged == true
       #   run: |
       #     echo "MERGED"
+      #run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
+
       - name: test workflow dispatch
         if: github.event_name == 'workflow_dispatch'
         env: 
           test: "changed test"
         run: |
-          echo "dbt run testmodel ${{ '--target prod'[github.event.inputs.bq_environment == 'true'] }}"
+          echo "dbt run testmodel ${{ fromJSON("","--target prod")[github.event.inputs.bq_environment == 'true'] }}"
 
 
 
