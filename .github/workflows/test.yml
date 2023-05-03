@@ -52,8 +52,18 @@ jobs:
         env: 
           test: "changed test"
         run: |
+          echo this is a workflow_dispatch
           echo "dbt run testmodel ${{ fromJSON('["","--target prod"]')[github.event.inputs.bq_environment == 'true'] }}"
+      
+      - name: pull request
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "this is a pull request"
 
+      - name: merge
+        if: github.event.pull_request.merged == true
+        run: |
+          echo ${{ github.event_name }}
 
 
           
