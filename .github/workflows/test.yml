@@ -26,9 +26,9 @@ jobs:
         run: |
           comment=$(git log -n 1 --skip 1 --pretty=format:"%s")
           echo "Latest git comment: $comment"
-          if [[ $comment =~ .*"skip-run-test || $comment =~ .*"skip-run" ]] ; then
+          if [[ $comment =~ .*"skip-run-test" || $comment =~ .*"skip-run" ]] ; then
             echo "SKIPPING RUN test and skip"
-          if [[ $comment =~ .*"skip-run-test ]] ; then
+          if [[ $comment =~ .*"skip-run-test" ]] ; then
            echo "SKIPPING RUN TEST"
 
       - name: run_models_test
