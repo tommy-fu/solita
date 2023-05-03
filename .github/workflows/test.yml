@@ -50,6 +50,22 @@ jobs:
     #   if: github.event.pull_request.merged == false
     #   run: |
     #     echo "${{ github.event.pull_request }}"
+<<<<<<< HEAD
+=======
+
+    # - name: run_models_test
+    #   if: github.event.pull_request.merged == false
+    #   run: |
+    #     echo "NOT MERGED"
+    
+    # - name: run_models_prod
+    #   if: github.event.pull_request.merged == true
+    #   run: |
+    #     echo "MERGED"
+    #run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
+
+
+>>>>>>> 80ba031 (t)
 
     # - name: run_models_test
     #   if: github.event.pull_request.merged == false
