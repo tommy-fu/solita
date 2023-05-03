@@ -52,7 +52,7 @@ jobs:
         env: 
           test: "changed test"
         run: |
-          echo "dbt run testmodel ${{ fromJSON("","--target prod")[github.event.inputs.bq_environment == 'true'] }}"
+          echo "dbt run testmodel ${{ fromJSON('["","--target prod"]')[github.event.inputs.bq_environment == 'true'] }}"
 
 
 
