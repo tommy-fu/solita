@@ -69,12 +69,6 @@ jobs:
 
 
 
-    # - name: merge prod
-    #   if: github.event_name == 'pull_request' &&  github.event.pull_request.merged == true
-    #   run: |
-    #     echo "prod"
-
-
           
           
       
