@@ -39,9 +39,11 @@ jobs:
           test: "changed test"
         run: |
           test="test test2"
-          echo "count=$(echo $test | wc)" >> $GITHUB_OUTPUT
+          echo "count=$(echo $test | wc -w)" >> $GITHUB_OUTPUT
       - name: test ouput
+        if: github.event_name == 'workflow_dispatch' && ${{ steps.count.outputs.count }} > 0
         run: |
+          echo "works"
           echo ${{ steps.count.outputs.count }}
 
       
