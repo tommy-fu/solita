@@ -1,69 +1,30 @@
 name: test
 
 on:
-  schedule:
-    - cron:  '12 12 13 12 5'
-  workflow_dispatch:
-    inputs:
-      models:
-        description: "Models to run eg: test+ +test1 +test2+" 
-        required: true
-      environment:
-        description: 'Prod'
-        type: boolean
-      full_refresh:
-        description: 'full-refresh'
-        type: boolean
-      
-      
   pull_request:
     branches:
       - main
-    types: [opened,closed,edited, synchronize, reopened]
-
-env:
-  test: "test1"
-  test2: "test2"
-  test3: 1
-
+    types: [opened, closed, edited, synchronize, reopened]
 jobs:
   scheduled_run:
     name: scheduled_run
     runs-on: ubuntu-latest
-
     steps:
-      - name: test workflow dispatch
-        id: count
-        env: 
-          test: "changed test"
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: test
+
         run: |
-          ${{ github.base_ref }} origin/${{ github.head_ref }}
+          echo "${{ github.base_ref }} origin/${{ github.head_ref }}"
 
-
-      
-    # echo "dbt run testmodel ${{ fromJSON('["","--target prod"]')[github.event.inputs.bq_environment == 'true'] }}"
-    # - name: checkout
-    #   uses: actions/checkout@v2
-    #   with:
-    #     fetch-depth: 0
-    
-    # - name: log
-    #   if: github.event.pull_request.merged == false
-    #   run: |
-    #     echo "${{ github.event.pull_request }}"
-
-    # - name: run_models_test
-    #   if: github.event.pull_request.merged == false
-    #   run: |
-    #     echo "NOT MERGED"
-    
-    # - name: run_models_prod
-    #   if: github.event.pull_request.merged == true
-    #   run: |
-    #     echo "MERGED"
-    #run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
-
-
+          echo "first $(git log -n 1 --pretty=format:"%s")"
+          echo "second $(git log origin/main -n 1 --pretty=format:"%s")"
+          echo "third $(git log origin/test/commit-message -n 1 --pretty=format:"%s")"
+          echo "fourth $(git log origin/${{ github.head_ref }} -n 1 --pretty=format:"%s")"
+          echo "fifth $(git log origin/${{ github.base_ref }} -n 1 --pretty=format:"%s")"
+          
 
           
           
