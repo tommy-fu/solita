@@ -1,19 +1,6 @@
 name: test
 
 on:
-  schedule:
-    - cron:  '12 12 13 12 5'
-  workflow_dispatch:
-    inputs:
-      models:
-        description: "Models to run eg: test+ +test1 +test2+" 
-        required: true
-      environment:
-        description: 'Prod'
-        type: boolean
-      full_refresh:
-        description: 'full-refresh'
-        type: boolean
   pull_request:
     branches:
       - main
