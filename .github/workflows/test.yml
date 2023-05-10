@@ -27,30 +27,7 @@ jobs:
           echo "$(git log -n 1 --skip 1 --pretty=format:"%s")"
           echo "$(git log origin/${{ github.head_ref }} -n 1 --skip 1 --pretty=format:"%s")"
           echo "$(git log origin/${{ github.head_ref }} -n 1  --pretty=format:"%s")"
-
-
-      
-    # echo "dbt run testmodel ${{ fromJSON('["","--target prod"]')[github.event.inputs.bq_environment == 'true'] }}"
-    # - name: checkout
-    #   uses: actions/checkout@v2
-    #   with:
-    #     fetch-depth: 0
-    
-    # - name: log
-    #   if: github.event.pull_request.merged == false
-    #   run: |
-    #     echo "${{ github.event.pull_request }}"
-
-    # - name: run_models_test
-    #   if: github.event.pull_request.merged == false
-    #   run: |
-    #     echo "NOT MERGED"
-    
-    # - name: run_models_prod
-    #   if: github.event.pull_request.merged == true
-    #   run: |
-    #     echo "MERGED"
-    #run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
+          echo "$(git log ${{ github.head_ref }} -n 1  --pretty=format:"%s")"
 
 
 
