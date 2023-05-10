@@ -37,7 +37,7 @@ jobs:
         env: 
           test: "changed test"
         run: |
-          ${{ github.base_ref }} origin/${{ github.head_ref }}
+          echo "${{ github.base_ref }} origin/${{ github.head_ref }}"
 
 
       
