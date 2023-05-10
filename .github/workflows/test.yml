@@ -14,12 +14,10 @@ on:
       full_refresh:
         description: 'full-refresh'
         type: boolean
-      
-      
   pull_request:
     branches:
       - main
-    types: [opened,closed,edited, synchronize, reopened]
+    types: [opened, closed, edited, synchronize, reopened]
 
 env:
   test: "test1"
