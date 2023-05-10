@@ -36,6 +36,10 @@ jobs:
           test: "changed test"
         run: |
           echo "${{ github.base_ref }} origin/${{ github.head_ref }}"
+          echo "$(git log -n 1 --pretty=format:"%s")"
+          echo "$(git log -n 1 --skip 1 --pretty=format:"%s")"
+          echo "$(git log origin/${{ github.head_ref }} -n 1 --skip 1 --pretty=format:"%s")"
+          echo "$(git log origin/${{ github.head_ref }} -n 1  --pretty=format:"%s")"
 
 
       
