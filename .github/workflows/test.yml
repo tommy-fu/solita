@@ -34,17 +34,11 @@ jobs:
     steps:
       - name: test workflow dispatch
         id: count
-        if: github.event_name == 'workflow_dispatch' && ${{ env.test3 }} > 0 
         env: 
           test: "changed test"
         run: |
-          test=""
-          echo "count=$(echo $test | wc -w)" >> $GITHUB_OUTPUT
-      - name: test ouput
-        if: github.event_name == 'workflow_dispatch' && steps.count.outputs.count > 0  
-        run: |
-          echo "works"
-          echo ${{ steps.count.outputs.count }}
+          ${{ github.base_ref }} origin/${{ github.head_ref }}
+
 
       
     # echo "dbt run testmodel ${{ fromJSON('["","--target prod"]')[github.event.inputs.bq_environment == 'true'] }}"
