@@ -19,11 +19,11 @@ jobs:
         run: |
           echo "${{ github.base_ref }} origin/${{ github.head_ref }}"
 
-          echo "$(git log -n 1 --pretty=format:"%s")"
-          echo "$(git log -n main 1 --pretty=format:"%s")"
-          echo "$(git log -n origin/test/commit-message 1 --pretty=format:"%s")"
-          echo "$(git log origin/${{ github.head_ref }} -n 1 --pretty=format:"%s")"
-          echo "$(git log ${{ github.base_ref }} -n 1 --pretty=format:"%s")"
+          echo "first $(git log -n 1 --pretty=format:"%s")"
+          echo "second $(git log main -n 1 --pretty=format:"%s")"
+          echo "third $(git log origin/test/commit-message -n 1 --pretty=format:"%s")"
+          echo "fourth $(git log origin/${{ github.head_ref }} -n 1 --pretty=format:"%s")"
+          echo "fifth $(git log ${{ github.base_ref }} -n 1 --pretty=format:"%s")"
           
 
           
