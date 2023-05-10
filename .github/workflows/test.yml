@@ -5,31 +5,22 @@ on:
     branches:
       - main
     types: [opened, closed, edited, synchronize, reopened]
-
-env:
-  test: "test1"
-  test2: "test2"
-  test3: 1
-
 jobs:
   scheduled_run:
     name: scheduled_run
     runs-on: ubuntu-latest
-
     steps:
-      - name: test workflow dispatch
-        id: count
-        env: 
-          test: "changed test"
+      - name: test
+
         run: |
           echo "${{ github.base_ref }} origin/${{ github.head_ref }}"
-          echo $(git log -n 1 --pretty=format:"%s")
-          echo $(git log -n 1 --skip 1 --pretty=format:"%s")
-          echo "$(git log origin/${{ github.head_ref }} -n 1 --skip 1 --pretty=format:"%s")"
-          echo "$(git log origin/${{ github.head_ref }} -n 1  --pretty=format:"%s")"
-          echo "$(git log ${{ github.head_ref }} -n 1  --pretty=format:"%s")"
 
-
+          echo "$(git log -n 1 --pretty=format:"%s")"
+          echo "$(git log -n main 1 --pretty=format:"%s")"
+          echo "$(git log -n origin/test/commit-message 1 --pretty=format:"%s")"
+          echo "$(git log origin/${{ github.head_ref }} -n 1 --pretty=format:"%s")"
+          echo "$(git log ${{ github.base_ref }} -n 1 --pretty=format:"%s")"
+          
 
           
           
